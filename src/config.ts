@@ -16,6 +16,8 @@ export interface ZoomConfig {
 	enableSocialStream: boolean
 	socialStreamId: string
 	socialStreamQuestionPrefix: string
+	includeDirectMessages: boolean
+	includeWaitingRoomMessages: boolean
 }
 
 export const GetConfigFields = (): SomeCompanionConfigField[] => {
@@ -139,6 +141,22 @@ export const GetConfigFields = (): SomeCompanionConfigField[] => {
 			label: 'Session Id for Social Stream',
 			width: 5,
 			default: '',
+			isVisible: (options) => options['enableSocialStream'] === true,
+		},
+		{
+		  type: 'checkbox',
+		  id: 'includeDirectMessages',
+		  width: 2,
+		  default: false,
+		  label: 'Include DMs from individual participants',
+      isVisible: (options) => options['enableSocialStream'] === true,
+		},
+		{
+		  type: 'checkbox',
+		  id: 'includeWaitingRoomMessages',
+		  width: 2,
+		  default: true,
+		  label: 'Include Waiting Room messages',
 			isVisible: (options) => options['enableSocialStream'] === true,
 		},
 		{

@@ -577,9 +577,15 @@ export class OSC {
 								if (
 									this.instance.config.enableSocialStream &&
 									this.instance.config.socialStreamId.length > 0 &&
+									this.instance.config.includeWaitingRoomAndDirectMessages &&
 									data.args.length >= 5
 								) {
-									await socialStreamApi.postMessage(data.args[1].value, data.args[4].value, this.instance)
+								  const messageFrom = data.args[6].value // 0 - NONE, 1 - ALL, 2 - ALL PANELISTS, 3 - INDIVIDUAL PANELIST, 4 - INDIVIDUAL, 5 - WAITING ROOM
+
+                  if (messageFrom === 4 && !this.instance.config.includeDirectMessages) return;
+                  if (messageFrom === 5 && !this.instance.config.includeWaitingRoomMessages) return;
+
+                  await socialStreamApi.postMessage(data.args[1].value, data.args[4].value, this.instance)
 								}
 								break
 							case 'askedQuestion': {
